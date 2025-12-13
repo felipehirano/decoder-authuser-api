@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name="TB_USERS")
+@Table(name="tb_users")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserModel {
 
