@@ -1,11 +1,13 @@
 package com.ead.authuser.services.impl;
 
+import com.ead.authuser.exceptions.NotFoundException;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.repositories.UserRepository;
 import com.ead.authuser.services.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -23,14 +25,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserModel findUser(UUID userId) {
-        return this.userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User Not Found"));
+    public Optional<UserModel> findUser(UUID userId) {
+        Optional<UserModel> user = this.userRepository.findById(userId);
+        if(user.isEmpty()) {
+            throw new NotFoundException("User Not Found");
+        }
+        return user;
     }
 
     @Override
-    public void delete(UUID userId) {
-        UserModel user = this.findUser(userId);
+    public void delete(UserModel user) {
         this.userRepository.delete(user);
     }
 }

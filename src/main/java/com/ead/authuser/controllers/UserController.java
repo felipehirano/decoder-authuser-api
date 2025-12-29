@@ -2,10 +2,13 @@ package com.ead.authuser.controllers;
 
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.services.UserService;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -24,13 +27,13 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserModel> getOneUser(@PathVariable UUID userId){
-        return ResponseEntity.ok(this.userService.findUser(userId));
+    public ResponseEntity<Optional<UserModel>> getOneUser(@PathVariable UUID userId){
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.findUser(userId));
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable UUID userId) {
-        this.userService.delete(userId);
+        this.userService.delete(this.userService.findUser(userId).get());
         return ResponseEntity.noContent().build();
     }
 }
