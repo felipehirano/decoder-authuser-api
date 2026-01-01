@@ -3,6 +3,7 @@ package com.ead.authuser.services.impl;
 import com.ead.authuser.dto.UserRecordDto;
 import com.ead.authuser.enums.UserStatus;
 import com.ead.authuser.enums.UserType;
+import com.ead.authuser.exceptions.MissMatchException;
 import com.ead.authuser.exceptions.NotFoundException;
 import com.ead.authuser.exceptions.ResourceAlreadyExistsException;
 import com.ead.authuser.models.UserModel;
@@ -78,5 +79,40 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public UserModel updateUser(UUID userId, UserRecordDto userRecordDto) {
+        var userModel = this.findUser(userId);
+
+        userModel.get().setFullName(userRecordDto.fullName());
+        userModel.get().setPhoneNumber(userRecordDto.phoneNumber());
+        userModel.get().setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
+        
+        return this.userRepository.save(userModel.get());
+    }
+
+    @Override
+    public UserModel updateUserPassword(UUID userId, UserRecordDto userRecordDto) {
+        var userModel = this.findUser(userId);
+
+        if(!userModel.get().getPassword().equals(userRecordDto.oldPassword())) {
+            throw new MissMatchException("Old password does not match.");
+        }
+
+        userModel.get().setPassword(userRecordDto.password());
+        userModel.get().setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
+        
+        return this.userRepository.save(userModel.get());
+    }
+
+    @Override
+    public UserModel updateUserImage(UUID userId, UserRecordDto userRecordDto) {
+        var userModel = this.findUser(userId);
+
+        userModel.get().setImageUrl(userRecordDto.imageUrl());
+        userModel.get().setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
+        
+        return this.userRepository.save(userModel.get());
     }
 }

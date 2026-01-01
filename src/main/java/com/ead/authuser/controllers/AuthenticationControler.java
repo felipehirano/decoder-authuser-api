@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ead.authuser.dto.UserRecordDto;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.services.UserService;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
 @RequestMapping("/auth")
@@ -22,7 +23,11 @@ public class AuthenticationControler {
     }
     
     @PostMapping("/signup")
-    public ResponseEntity<UserModel> signup(@RequestBody UserRecordDto userRecordDto) {
+    public ResponseEntity<UserModel> signup(
+        @RequestBody 
+        @JsonView(UserRecordDto.UserView.RegistrationPost.class) 
+        UserRecordDto userRecordDto
+    ) {
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(userService.registerUser(userRecordDto));
     }

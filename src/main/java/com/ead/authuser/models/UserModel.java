@@ -44,6 +44,7 @@ public class UserModel {
     String phoneNumber;
 
     @Column(length = 255)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     String imageUrl;
 
     @Column(nullable = false)

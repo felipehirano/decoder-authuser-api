@@ -20,4 +20,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 
+    @ExceptionHandler(MissMatchException.class)
+    public ResponseEntity<ErrorRecordResponse> handleMissMatchException(MissMatchException ex) {
+        ErrorRecordResponse errorResponse = new ErrorRecordResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), null);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
 }
