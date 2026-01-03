@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class UserController {
     @PutMapping("/{userId}")
     public ResponseEntity<Object> updateUser(
         @PathVariable UUID userId,
-        @RequestBody @JsonView(UserRecordDto.UserView.UserPut.class) UserRecordDto userRecordDto
+        @RequestBody @Validated(UserRecordDto.UserView.UserPut.class) @JsonView(UserRecordDto.UserView.UserPut.class) UserRecordDto userRecordDto
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(
             this.userService.updateUser(userId, userRecordDto)
@@ -52,7 +53,7 @@ public class UserController {
     @PutMapping("/{userId}/password")
     public ResponseEntity<Object> updateUserPassword(
         @PathVariable UUID userId,
-        @RequestBody @JsonView(UserRecordDto.UserView.PasswordPut.class) UserRecordDto userRecordDto
+        @RequestBody @Validated(UserRecordDto.UserView.PasswordPut.class) @JsonView(UserRecordDto.UserView.PasswordPut.class) UserRecordDto userRecordDto
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(
             this.userService.updateUserPassword(userId, userRecordDto)
@@ -62,7 +63,7 @@ public class UserController {
     @PutMapping("/{userId}/image")
     public ResponseEntity<Object> updateUserImage(
         @PathVariable UUID userId,
-        @RequestBody @JsonView(UserRecordDto.UserView.ImagePut.class) UserRecordDto userRecordDto
+        @RequestBody @Validated(UserRecordDto.UserView.ImagePut.class) @JsonView(UserRecordDto.UserView.ImagePut.class) UserRecordDto userRecordDto
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(
             this.userService.updateUserImage(userId, userRecordDto)

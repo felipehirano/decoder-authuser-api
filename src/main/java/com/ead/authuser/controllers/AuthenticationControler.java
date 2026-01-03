@@ -2,6 +2,7 @@ package com.ead.authuser.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ public class AuthenticationControler {
     @PostMapping("/signup")
     public ResponseEntity<UserModel> signup(
         @RequestBody 
+        @Validated(UserRecordDto.UserView.RegistrationPost.class)
         @JsonView(UserRecordDto.UserView.RegistrationPost.class) 
         UserRecordDto userRecordDto
     ) {
