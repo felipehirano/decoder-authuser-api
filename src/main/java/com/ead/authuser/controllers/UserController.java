@@ -5,6 +5,8 @@ import com.ead.authuser.models.UserModel;
 import com.ead.authuser.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,8 +27,8 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserModel>> getAll() {
-        return ResponseEntity.ok(this.userService.findAll());
+    public ResponseEntity<Page<UserModel>> getAll(Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.findAll(pageable));
     }
 
     @GetMapping("/{userId}")

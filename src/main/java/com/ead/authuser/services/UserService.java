@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 public interface UserService {
     List<UserModel> findAll();
     Optional<UserModel> findUser(UUID userId);
@@ -17,4 +20,5 @@ public interface UserService {
     UserModel updateUser(UUID userId, UserRecordDto userRecordDto);
     UserModel updateUserPassword(UUID userId, UserRecordDto userRecordDto);
     UserModel updateUserImage(UUID userId, UserRecordDto userRecordDto);
+    Page<UserModel> findAll(Pageable pageable);
 }

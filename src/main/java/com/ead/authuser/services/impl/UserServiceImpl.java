@@ -11,6 +11,8 @@ import com.ead.authuser.repositories.UserRepository;
 import com.ead.authuser.services.UserService;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -114,5 +116,10 @@ public class UserServiceImpl implements UserService {
         userModel.get().setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
         
         return this.userRepository.save(userModel.get());
+    }
+
+    @Override
+    public Page<UserModel> findAll(Pageable pageable) {
+        return this.userRepository.findAll(pageable);
     }
 }
