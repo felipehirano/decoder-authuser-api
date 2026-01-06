@@ -9,11 +9,16 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import net.kaczmarzyk.spring.data.jpa.web.SpecificationArgumentResolver;
+
 @Configuration
 public class ResolveConfig implements WebMvcConfigurer {
     
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+
+        resolvers.add(new SpecificationArgumentResolver());
+        
         var pageable = new PageableHandlerMethodArgumentResolver();
         pageable.setFallbackPageable(PageRequest.of(0, 10));
         resolvers.add(pageable);
