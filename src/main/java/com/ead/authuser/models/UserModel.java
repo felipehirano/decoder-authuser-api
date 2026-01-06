@@ -10,10 +10,12 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.springframework.hateoas.RepresentationModel;
+
 @Entity
 @Table(name="tb_users")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserModel {
+public class UserModel extends RepresentationModel<UserModel> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
